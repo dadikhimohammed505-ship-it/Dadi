@@ -1,0 +1,199 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brain Pod AI Funnel — Boost Your Content Instantly</title>
+<style>
+:root{
+--bg:#050607; --panel:#0b0d10; --muted:#9fb3c7;
+--accent1:#00fff7; --accent2:#00b7ff; --accent3:#00e0ff;
+--neon:#00ffe0; --radius:16px; --maxw:1280px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg); color:#fff; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; -webkit-font-smoothing:antialiased;}
+.container{max-width:var(--maxw);margin:0 auto;padding:20px;}
+.hero{padding:80px 20px 40px;position:relative;border-radius:20px;overflow:hidden;
+background:radial-gradient(circle at 25% 25%, rgba(0,255,255,0.15), transparent 60%), radial-gradient(circle at 75% 65%, rgba(0,183,255,0.2), transparent 70%);
+transition:all 0.3s ease;}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,255,255,0.05), transparent);pointer-events:none;}
+.headline{font-size:3rem;font-weight:900;text-align:center;background:linear-gradient(90deg,var(--accent1),var(--accent3));
+-webkit-background-clip:text;color:transparent;letter-spacing:-1px;margin-bottom:14px;animation:glowText 2.5s infinite alternate;}
+@keyframes glowText{0%{filter:drop-shadow(0 0 8px var(--neon));}100%{filter:drop-shadow(0 0 24px var(--accent2));}}
+.sub{text-align:center;max-width:840px;margin:0 auto;font-size:1.2rem;color:var(--muted);}
+.ctaRow{display:flex;justify-content:center;gap:14px;margin-top:20px;flex-wrap:wrap;}
+.btn{padding:16px 28px;border-radius:16px;font-weight:900;border:0;cursor:pointer;transition:0.2s;position:relative;}
+.btn.primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#011018;box-shadow:0 0 24px rgba(0,255,220,0.55);animation:neonPulse 2s infinite alternate;}
+@keyframes neonPulse{0%{box-shadow:0 0 24px rgba(0,255,220,0.55);}50%{box-shadow:0 0 48px rgba(0,255,220,0.85);}100%{box-shadow:0 0 24px rgba(0,255,220,0.55);}}
+.btn.primary:hover{transform:scale(1.12);}
+.btn.ghost{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:var(--muted);}
+.micro{margin-top:26px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.micro button{background:#0c0f12;border:1px solid rgba(0,255,255,0.08);padding:12px 20px;border-radius:12px;font-weight:800;color:#fff;cursor:pointer;transition:0.2s;position:relative;animation:microHover 3s infinite alternate;}
+@keyframes microHover{0%{transform:translateY(0px);}50%{transform:translateY(-2px);}100%{transform:translateY(0px);}}
+#microStatus{text-align:center;color:var(--muted);margin-top:12px;font-weight:700;}
+#progressBarWrap{width:90%;max-width:720px;height:16px;background:#0b0d11;border-radius:14px;margin:22px auto;overflow:hidden;border:1px solid rgba(0,255,220,0.25);}
+#progressBar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent1),var(--accent3));border-radius:14px;transition:width 0.2s;}
+#sticky{position:fixed;right:18px;bottom:26px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#011018;padding:16px 24px;border-radius:16px;font-weight:900;box-shadow:0 0 32px rgba(0,255,220,0.55);cursor:pointer;transition:0.2s;animation:stickyPulse 2s infinite alternate;}
+@keyframes stickyPulse{0%{transform:scale(1);}50%{transform:scale(1.08);}100%{transform:scale(1);}}
+#toasts{position:fixed;left:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:1100;}
+.toast{background:#0a0c11;border:1px solid rgba(0,255,220,0.22);padding:12px 16px;border-radius:16px;font-size:14px;box-shadow:0 0 28px rgba(0,255,220,0.55);opacity:1;animation:toastGlow 1.5s infinite alternate;}
+@keyframes toastGlow{0%{box-shadow:0 0 16px rgba(0,255,220,0.45);}50%{box-shadow:0 0 32px rgba(0,255,255,0.7);}100%{box-shadow:0 0 16px rgba(0,255,220,0.45);}}
+#exitWrap{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:1600;}
+.exitBox{background:#0b0d11;padding:28px;border-radius:20px;border:1px solid rgba(0,255,220,0.3);text-align:center;width:92%;max-width:820px;animation:exitPulse 2s infinite alternate;}
+@keyframes exitPulse{0%{transform:scale(1);}50%{transform:scale(1.06);}100%{transform:scale(1);}}
+.exitBox h3{margin-bottom:12px;font-size:1.5rem;}
+.exitBox p{color:var(--muted);margin-bottom:16px;}
+</style>
+</head>
+<body>
+<div class="container">
+<section class="hero">
+<h1 class="headline">Brain Pod AI — Boost Your Content Instantly</h1>
+<p class="sub">Generate high-quality AI content in minutes. Text, images, video — all-in-one platform.</p>
+<div class="ctaRow">
+<button class="btn primary" id="cta">Start Free Trial →</button>
+<button class="btn ghost" id="demo">Quick Demo</button>
+</div>
+<div class="micro">
+<button data-type="sales">Boost Sales</button>
+<button data-type="audience">Grow Audience</button>
+<button data-type="automation">Full Automation</button>
+<button data-type="funnels">Funnels + Creatives</button>
+<button data-type="viral">Viral Boost</button>
+<button data-type="lead">Lead Magnet</button>
+<button data-type="content">Content Sprint</button>
+<button data-type="dm">Automated DM</button>
+<button data-type="social">Social Surge</button>
+<button data-type="ads">Micro Ads</button>
+<button data-type="trends">Trending Hooks</button>
+<button data-type="retarget">Retargeting Magic</button>
+</div>
+<div id="microStatus"></div>
+<div id="progressBarWrap"><div id="progressBar"></div></div>
+<pre id="preview">Tap Generate to see your AI content plan…</pre>
+</section>
+</div>
+
+<div id="sticky">Start Free Trial →</div>
+<div id="toasts"></div>
+<div id="exitWrap">
+<div class="exitBox">
+<h3>Leaving? Your AI Funnel is Ready</h3>
+<p>Brain Pod AI builds content & funnels for your niche. No credit card required to start.</p>
+<button class="btn primary" id="exitGet">Start Now →</button>
+<button class="btn ghost" id="exitClose">No Thanks</button>
+</div>
+</div>
+
+<script>
+(function(){
+const $=(s)=>document.querySelector(s), $$=(s)=>document.querySelectorAll(s);
+const progress=$('#progressBar'); let progressVal=0;
+
+function pushToast(msg){
+const box=document.createElement('div');
+box.className='toast'; box.textContent=msg;
+$('#toasts').appendChild(box);
+setTimeout(()=>{box.style.opacity='0';setTimeout(()=>box.remove(),300);},4000);
+}
+
+// Micro-buttons engagement
+$$('.micro button').forEach(btn=>{
+btn.onclick=()=>{
+const t=btn.dataset.type;
+localStorage.setItem('choice',t);
+$('#microStatus').textContent="✅ Selected: "+t.toUpperCase()+" — Funnel adapting";
+progressVal+=8; if(progressVal>100)progressVal=100;
+progress.style.width=progressVal+'%';
+adaptCTA(t);
+pushToast("Audience focuses on "+t);
+};
+});
+
+function adaptCTA(t){
+const cta=$('#cta'), sticky=$('#sticky');
+const texts={
+sales:'Boost Sales with Brain Pod →',
+audience:'Grow Audience →',
+automation:'Automation Blueprint →',
+funnels:'Full Funnel System →',
+viral:'Secret Viral Boost →',
+lead:'Lead Magnet Ready →',
+content:'Content Sprint →',
+dm:'Automated DM Funnel →',
+social:'Social Surge →',
+ads:'Micro Ads Funnel →',
+trends:'Trending Hooks →',
+retarget:'Retargeting Magic →'
+};
+cta.textContent=texts[t]||'Start Free Trial →';
+sticky.textContent=cta.textContent;
+cta.classList.add('pulse');
+}
+
+// Funnel preview simulation
+function makeFunnel(type){
+const ideas=["AI content plan","Short-form content wave","Automated DM","Split-test hooks","Lead magnet accelerator","Creative sprint (48h)"];
+const pick=()=>ideas[Math.floor(Math.random()*ideas.length)];
+return `⚡ Funnel Type: ${type}\n• Hook: ${pick()}\n• Sequence: 3 automated steps\n• Traffic: micro-target + retargeting\n• Automation: follow-up + tripwire\n⏱ Delivery: 15 seconds\n🔥 Bonus viral boost included`;
+}
+
+$('#cta').onclick=()=>{
+// Redirect directly to Brain Pod AI affiliate link
+window.location.href = "https://brainpod.ai?via=mohammed";
+};
+$('#demo').onclick=()=>{
+$('#preview').textContent=makeFunnel('demo'); pushToast("Demo funnel previewed");
+};
+$('#sticky').onclick=()=>$('#cta').click();
+
+// Exit intent
+let exitShown=false;
+function showExit(){if(exitShown)return; exitShown=true; $('#exitWrap').style.display='flex';}
+$('#exitGet').onclick=()=>{window.location.href="https://brainpod.ai?via=mohammed"; $('#exitWrap').style.display='none';};
+$('#exitClose').onclick=()=>$('#exitWrap').style.display='none';
+document.addEventListener('mouseout',e=>{if(e.clientY<5)showExit();});
+
+// Behavioral AI simulation (optional)
+let score=0,qIntent=0,dwellStart=Date.now();
+['mousemove','scroll','click','touchstart','keydown'].forEach(ev=>{
+window.addEventListener(ev,()=>{score+=ev==='click'?2: ev==='scroll'?1.2:0.4;qIntent+=ev==='click'?1.4: ev==='scroll'?0.9:0.3;adaptivePhase();});
+});
+let lastMove=0,cScore=0;
+function adaptivePhase(){
+const t=Date.now(),diff=t-lastMove;lastMove=t;
+const weight=diff<800?1.6:diff<2000?0.9:0.3;cScore+=weight;
+const cta=$('#cta'); if(!cta) return;
+if(cScore>20 && cScore<=40){cta.innerHTML='Continue — on the right track →'; cta.style.opacity='0.96';}
+else if(cScore>40 && cScore<=75){cta.innerHTML='Matches exactly your goals →'; cta.style.transform='scale(1.1)';cta.style.filter='drop-shadow(0 0 16px rgba(0,180,255,0.55))';}
+else if(cScore>75){cta.innerHTML='Last step — complete micro-plan →';cta.style.transform='scale(1.15)';cta.style.filter='drop-shadow(0 0 22px rgba(0,255,205,0.75))';}
+}
+
+setInterval(()=>{
+const cta=$('#cta'); if(!cta) return;
+if(qIntent>40){cta.innerHTML='🔥 Secret Viral Boost — Unlock Now →'; cta.style.boxShadow='0 0 36px rgba(0,255,220,0.75)';}
+},1200);
+
+// Persistent behavioral memory
+window.addEventListener('beforeunload',()=>{
+if(qIntent>30) localStorage.setItem('phase10000plus_memory','1');
+if((Date.now()-dwellStart)/1000>18) localStorage.setItem('elasticBoost','1');
+});
+
+if(localStorage.getItem('phase10000plus_memory')==='1'){
+setTimeout(()=>{
+const msg=document.createElement('div'); msg.style.position='fixed';
+msg.style.bottom='50%'; msg.style.left='50%'; msg.style.transform='translate(-50%,50%)';
+msg.style.padding='26px 36px'; msg.style.background='rgba(0,0,0,0.9)'; msg.style.backdropFilter='blur(14px)';
+msg.style.border='1px solid rgba(0,255,220,0.3)'; msg.style.borderRadius='24px'; msg.style.color='#fff';
+msg.style.fontSize='18px'; msg.style.textAlign='center'; msg.style.zIndex='999999';
+msg.innerHTML='🎯 Secret Viral Layer Active — Continue your progress →';
+document.body.appendChild(msg); setTimeout(()=>msg.remove(),7000);
+},1000);
+}
+
+})();
+</script>
+</body>
+</html>
+
