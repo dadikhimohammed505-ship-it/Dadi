@@ -1,46 +1,35 @@
 import streamlit as st
+import numpy as np
 
-# 1. إعداد الصفحة (كامل العرض)
-st.set_page_config(page_title="مختبر الكهرباء", layout="wide")
-
-# 2. القائمة الجانبية للتحكم (احترافية ومنظمة)
-with st.sidebar:
-    st.header("⚙️ أدوات التحكم")
-    st.write("اضبط قيم الدائرة من هنا")
-    v = st.slider("مصدر الجهد (V)", -20.0, 20.0, 15.0)
-    r = st.slider("المقاومة (R) [أوم]", 0.1, 1000.0, 300.0)
-    st.markdown("---")
-    st.write("النمط: وضع المختبر")
-
-# 3. العنوان الرئيسي
-st.title("⚡ مختبر الدوائر الكهربائية التفاعلي")
-
-# 4. تقسيم الصفحة الرئيسية
-col1, col2 = st.columns([2, 3])
-
-with col1:
-    st.subheader("نتائج الحساب")
-    # عرض النتائج في مربعات احترافية
-    current = v / r
-    st.metric(label="الجهد", value=f"{v} V")
-    st.metric(label="المقاومة", value=f"{r} Ω")
-    st.metric(label="التيار الكهربائي", value=f"{current:.3f} A", delta=f"{current*1000:.0f} mA")
-
-with col2:
-    st.subheader("رسم توضيحي")
-    # حاوية الرسم
-    with st.container(border=True):
-        st.write("مخطط الدائرة الكهربائية:")
-        # Placeholder للرسم
-        st.info("هنا يمكنك وضع صورة دائرتك (st.image) بعد رفعها للمستودع.")
-        # مثال: st.image("circuit.jpg")
-
-# 5. القوانين في الأسفل
-st.markdown("---")
-st.subheader("القوانين المستخدمة")
-tab1, tab2 = st.tabs(["قانون أوم", "قانون كيرشوف"])
-with tab1:
-    st.latex(r'''I = \frac{V}{R}''')
-with tab2:
-    st.write("قوانين كيرشوف للتيار والجهد تعتمد على حفظ الشحنة والطاقة.")
+def solve_circuit(v1, v2, r1, r2, r3):
+    # محاكاة لدائرة بسيطة (أوم ومقسم جهد)
+    # هنا نقوم ببناء مصفوفة الدائرة وحلها
+    # A * x = B
+    A = np.array([[1/r1 + 1/r2, -1/r2], [-1/r2, 1/r2 + 1/r3]])
+    B = np.array([v1/r1, v2/r3])
     
+    try:
+        voltages = np.linalg.solve(A, B)
+        return voltages
+    except:
+        return [0, 0]
+
+st.title("⚡ المختبر الهندسي المتطور")
+
+with st.sidebar:
+    st.header("إعدادات الدائرة")
+    v1 = st.slider("جهد المصدر الأول (V)", 0.0, 20.0, 10.0)
+    v2 = st.slider("جهد المصدر الثاني (V)", 0.0, 20.0, 5.0)
+    r1 = st.slider("المقاومة R1", 1.0, 100.0, 10.0)
+    r2 = st.slider("المقاومة R2", 1.0, 100.0, 10.0)
+    r3 = st.slider("المقاومة R3", 1.0, 100.0, 10.0)
+
+# الحل
+results = solve_circuit(v1, v2, r1, r2, r3)
+
+st.subheader("نتائج المحاكاة الرياضية")
+col1, col2 = st.columns(2)
+col1.metric("الجهد عند العقدة A", f"{results[0]:.2f} V")
+col2.metric("الجهد عند العقدة B", f"{results[1]:.2f} V")
+
+st.info("هذا هو 'المحرك' الذي يحسب النتائج بدقة هندسية باستخدام المصفوفات.")
