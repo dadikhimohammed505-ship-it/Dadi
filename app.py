@@ -1,21 +1,46 @@
 import streamlit as st
 
-# ضبط إعدادات الصفحة لتكون احترافية
-st.set_page_config(page_title="مختبر الدوائر", layout="wide")
+# 1. إعداد الصفحة (كامل العرض)
+st.set_page_config(page_title="مختبر الكهرباء", layout="wide")
 
+# 2. القائمة الجانبية للتحكم (احترافية ومنظمة)
+with st.sidebar:
+    st.header("⚙️ أدوات التحكم")
+    st.write("اضبط قيم الدائرة من هنا")
+    v = st.slider("مصدر الجهد (V)", -20.0, 20.0, 15.0)
+    r = st.slider("المقاومة (R) [أوم]", 0.1, 1000.0, 300.0)
+    st.markdown("---")
+    st.write("النمط: وضع المختبر")
+
+# 3. العنوان الرئيسي
 st.title("⚡ مختبر الدوائر الكهربائية التفاعلي")
-st.write("مرحباً بك في لوحة التحكم الخاصة بك!")
 
-# إضافة قانون أوم
-st.subheader("حاسبة قانون أوم")
-col1, col2 = st.columns(2)
+# 4. تقسيم الصفحة الرئيسية
+col1, col2 = st.columns([2, 3])
+
 with col1:
-    v = st.number_input("الجهد (فولت)", value=12.0)
-with col2:
-    r = st.number_input("المقاومة (أوم)", value=10.0)
+    st.subheader("نتائج الحساب")
+    # عرض النتائج في مربعات احترافية
+    current = v / r
+    st.metric(label="الجهد", value=f"{v} V")
+    st.metric(label="المقاومة", value=f"{r} Ω")
+    st.metric(label="التيار الكهربائي", value=f"{current:.3f} A", delta=f"{current*1000:.0f} mA")
 
-if r > 0:
-    st.success(f"التيار = {v/r:.2f} أمبير")
-else:
-    st.error("المقاومة يجب أن تكون أكبر من صفر")
+with col2:
+    st.subheader("رسم توضيحي")
+    # حاوية الرسم
+    with st.container(border=True):
+        st.write("مخطط الدائرة الكهربائية:")
+        # Placeholder للرسم
+        st.info("هنا يمكنك وضع صورة دائرتك (st.image) بعد رفعها للمستودع.")
+        # مثال: st.image("circuit.jpg")
+
+# 5. القوانين في الأسفل
+st.markdown("---")
+st.subheader("القوانين المستخدمة")
+tab1, tab2 = st.tabs(["قانون أوم", "قانون كيرشوف"])
+with tab1:
+    st.latex(r'''I = \frac{V}{R}''')
+with tab2:
+    st.write("قوانين كيرشوف للتيار والجهد تعتمد على حفظ الشحنة والطاقة.")
     
