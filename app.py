@@ -1,26 +1,21 @@
-title("مختبر الدوائر الكهربائية التفاعلي ⚡")
+import streamlit as st
 
-tab1, tab2, tab3 = st.tabs(["قانون أوم", "التوصيل على التسلسل", "التوصيل على التوازي"])
+# ضبط إعدادات الصفحة لتكون احترافية
+st.set_page_config(page_title="مختبر الدوائر", layout="wide")
 
-with tab1:
-    st.header("حاسبة قانون أوم")
+st.title("⚡ مختبر الدوائر الكهربائية التفاعلي")
+st.write("مرحباً بك في لوحة التحكم الخاصة بك!")
+
+# إضافة قانون أوم
+st.subheader("حاسبة قانون أوم")
+col1, col2 = st.columns(2)
+with col1:
     v = st.number_input("الجهد (فولت)", value=12.0)
+with col2:
     r = st.number_input("المقاومة (أوم)", value=10.0)
-    if r > 0:
-        st.success(f"التيار = {v/r:.2f} أمبير")
 
-with tab2:
-    st.header("التسلسل (Series)")
-    r1 = st.number_input("المقاومة 1 (أوم)", value=5.0)
-    r2 = st.number_input("المقاومة 2 (أوم)", value=5.0)
-    st.write(f"المقاومة الكلية = {r1 + r2} أوم")
-
-with tab3:
-    st.header("التوازي (Parallel)")
-    p1 = st.number_input("المقاومة 1 (أوم) ", value=10.0)
-    p2 = st.number_input("المقاومة 2 (أوم) ", value=10.0)
-    if p1 > 0 and p2 > 0:
-        req = (p1 * p2) / (p1 + p2)
-        st.write(f"المقاومة الكلية = {req:.2f} أوم")
-        
-        
+if r > 0:
+    st.success(f"التيار = {v/r:.2f} أمبير")
+else:
+    st.error("المقاومة يجب أن تكون أكبر من صفر")
+    
