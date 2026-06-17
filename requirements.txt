@@ -2,5 +2,9 @@ streamlit
 plotly
 numpy
 pandas
+schemdraw
+matplotlib
+streamlit
+
 
 
