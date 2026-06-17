@@ -1,14 +1,13 @@
-
 import streamlit as st
 
-st.title("لوحة تحكم دارتي الكهربائية ⚡")
-st.write("أهلاً بك في أول تطبيق تفاعلي لمقرري!")
+st.title("Electrical Circuit Dashboard ⚡")
+st.write("Welcome to my first interactive app!")
 
-# إضافة منزلق للتحكم في الجهد
-voltage = st.slider("اختر الجهد (فولت)", 0, 50, 12)
-st.write(f"الجهد المختار حالياً هو: {voltage} فولت")
+# Slider for voltage
+voltage = st.slider("Select Voltage (V)", 0, 50, 12)
+st.write(f"Current Voltage: {voltage} V")
 
-# إضافة زر بسيط
-if st.button("احسب"):
-    st.success(f"تم الحساب بنجاح لجهد {voltage} فولت!")
-  
+# Simple button
+if st.button("Calculate"):
+    st.success(f"Calculation complete for {voltage} V!")
+    
