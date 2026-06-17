@@ -1,35 +1,58 @@
 import streamlit as st
 
-# إعداد الصفحة لتكون واسعة
-st.set_page_config(layout="wide")
+# إعداد الصفحة لتكون واسعة وتملأ الشاشة
+st.set_page_config(layout="wide", page_title="المختبر الهندسي")
+
+# تنسيق CSS مخصص للوصول لمظهر "اللوحة التقنية"
+st.markdown("""
+    <style>
+    .main { background-color: #121212; }
+    .stApp { color: #ffffff; }
+    .css-1r6slb0 { background-color: #1e1e1e; border: 1px solid #333; }
+    /* تنسيق العناوين */
+    h1 { color: #00d4ff; text-align: center; }
+    h3 { color: #ff9f43; font-size: 1.2rem; }
+    /* تنسيق البطاقات (الحاويات) */
+    div[data-testid="stVerticalBlock"] > div:nth-of-type(1) {
+        background-color: #1e1e1e;
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid #444;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 st.title("⚡ المختبر الهندسي المتطور")
 
-# تقسيم الصفحة إلى قسمين رئيسيين: الإعدادات (يمين) والرسم البياني/النتائج (يسار)
-col1, col2 = st.columns([1, 2])
+# تقسيم الصفحة إلى قسمين رئيسيين (تحكم في اليسار، وعرض في اليمين)
+col_controls, col_display = st.columns([1, 2])
 
-with col1:
-    st.subheader("إعدادات الدائرة")
-    with st.container(border=True): # حاوية ذات إطار احترافي
-        v1 = st.slider("جهد المصدر الأول (V)", -20, 20, 15)
-        r1 = st.slider("المقاومة (R1)", 10, 1000, 300)
-        
-        # أزرار تحكم مجمعة
-        c1, c2 = st.columns(2)
-        with c1:
-            st.button("إضافة مصدر")
-        with c2:
-            st.button("حذف عنصر")
-
-with col2:
-    st.subheader("المحاكاة والتحليل")
-    # حاوية للرسم البياني أو التمثيل البصري
-    with st.container(border=True):
-        st.write("هنا سيظهر الرسم البياني للدائرة")
-        # مثال لمساحة رسم بياني فارغة
-        st.line_chart([10, 20, 30, 40])
+with col_controls:
+    st.subheader("🛠️ أدوات التحكم")
     
-    # منطقة عرض المعادلات والنتائج
+    # اختيار الطوبولوجيا (القائمة المنسدلة)
+    topology = st.selectbox("شكل الدارة (Topology)", ["توالي", "توازي", "فرع"])
+    
+    # إعدادات المصدر والمقاومات
+    st.slider("مصدر الجهد (V)", -20, 20, 15)
+    st.slider("المقاومة (R)", 10, 1000, 300)
+    
+    # أزرار تحكم مجمعة
+    c1, c2 = st.columns(2)
+    with c1:
+        st.button("إضافة مصدر", use_container_width=True)
+    with c2:
+        st.button("حذف عنصر", use_container_width=True)
+
+with col_display:
+    st.subheader("📊 المحاكاة والحل الرياضي")
+    
+    # منطقة عرض الرسم البياني أو الدائرة
+    st.container(border=True)
+    st.write("هنا يتم عرض الدائرة أو الرسم البياني التفاعلي")
+    
+    # منطقة الحل الرياضي (معادلات كيرشوف)
+    st.markdown("### 📝 النتائج")
     st.latex(r'''
         \begin{bmatrix} 
         \frac{1}{R_1} + \frac{1}{R_2} & -\frac{1}{R_2} \\
@@ -38,5 +61,6 @@ with col2:
         \begin{bmatrix} V_A \\ V_B \end{bmatrix} = \begin{bmatrix} I_1 \\ I_2 \end{bmatrix}
     ''')
 
-# تذييل الصفحة أو معلومات إضافية
-st.info("💡 نصيحة: يمكنك تغيير القيم من الشريط الجانبي وسيتحدث التحليل الرياضي فوراً.")
+# تذييل بسيط
+st.divider()
+st.caption("نظام المحاكاة التفاعلية - الإصدار الاحترافي")
