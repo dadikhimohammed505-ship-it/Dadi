@@ -1,22 +1,33 @@
-import requests
-import json
-import os
+name: Pinterest Automation
 
-def fetch_data():
-    token = os.environ.get('PINTEREST_TOKEN')
-    url = "https://api.pinterest.com/v1/me/boards/"
-    headers = {"Authorization": f"Bearer {token}"}
-    
-    response = requests.get(url, headers=headers)
-    
-    if response.status_code == 200:
-        with open('my_data.json', 'w', encoding='utf-8') as f:
-            json.dump(response.json(), f, ensure_ascii=False, indent=4)
-        print("Success")
-    else:
-        print(f"Error: {response.status_code}")
-        print(response.text)
+on:
+  workflow_dispatch:
 
-if __name__ == "__main__":
-    fetch_data()
-  
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Run Pinterest Bot
+        env:
+          PINTEREST_TOKEN: ${{ secrets.PINTEREST_TOKEN }}
+        run: python bot.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add my_data.json
+          git commit -m "Update Pinterest data"
+          git push
