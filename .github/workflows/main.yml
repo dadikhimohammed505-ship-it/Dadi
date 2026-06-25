@@ -1,0 +1,26 @@
+name: Pinterest Automation
+
+on:
+  schedule:
+    - cron: '0 9 * * *' # سيعمل يومياً الساعة 9 صباحاً
+  workflow_dispatch: # يتيح لك تشغيله يدوياً من زر "Run workflow"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run Pinterest Bot
+        env:
+          PINTEREST_TOKEN: ${{ secrets.PINTEREST_TOKEN }}
+        run: python your_script.py # ضع هنا اسم ملف البايثون الخاص بك
