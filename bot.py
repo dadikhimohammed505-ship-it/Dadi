@@ -30,4 +30,5 @@ try:
 
 except Exception as e:
     print(f"حدث خطأ: {e}")
-  
+  print(f"Data retrieved: {data}")
+                                         
