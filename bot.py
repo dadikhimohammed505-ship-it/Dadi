@@ -1,36 +1,33 @@
-name: Pinterest Automation
+import os
+import requests
+import json
 
-on:
-  workflow_dispatch:
+# جلب التوكن من الإعدادات السرية في GitHub
+token = os.getenv('PINTEREST_TOKEN')
 
-jobs:
-  run-bot:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+# إعدادات الاتصال
+headers = {
+    'Authorization': f'Bearer {token}',
+    'Content-Type': 'application/json'
+}
+
+# الرابط الخاص بسحب معلومات حسابك الشخصي
+url = 'https://api.pinterest.com/v5/user_account'
+
+try:
+    response = requests.get(url, headers=headers)
+    
+    if response.status_code == 200:
+        data = response.json()
         
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
+        # حفظ البيانات في ملف my_data.json
+        with open('my_data.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=4)
+        print("تم سحب البيانات بنجاح.")
+    else:
+        print(f"فشل الاتصال، كود الخطأ: {response.status_code}")
+        print(response.text)
 
-      - name: Install dependencies
-        run: |
-          pip install requests
-
-      - name: Run Pinterest Bot
-        env:
-          PINTEREST_TOKEN: ${{ secrets.PINTEREST_TOKEN }}
-        run: |
-          python bot.py || echo "Bot failed, but checking for output..."
-
-      - name: Commit and push changes
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add my_data.json || echo "No file to add"
-          git commit -m "Update Pinterest data" || echo "No changes to commit"
-          git push || echo "Nothing to push"
+except Exception as e:
+    print(f"حدث خطأ: {e}")
+  
