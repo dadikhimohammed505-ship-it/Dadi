@@ -18,4 +18,5 @@ jobs:
         env:
           PINTEREST_TOKEN: ${{ secrets.PINTEREST_TOKEN }}
         run: python bot.py
+        # trigger update
         
