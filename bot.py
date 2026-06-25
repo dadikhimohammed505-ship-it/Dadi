@@ -1,34 +1,26 @@
-import os
 import requests
 import json
+import os
 
-# جلب التوكن من الإعدادات السرية في GitHub
-token = os.getenv('PINTEREST_TOKEN')
-
-# إعدادات الاتصال
-headers = {
-    'Authorization': f'Bearer {token}',
-    'Content-Type': 'application/json'
-}
-
-# الرابط الخاص بسحب معلومات حسابك الشخصي
-url = 'https://api.pinterest.com/v5/user_account'
-
-try:
+def fetch_data():
+    token = os.environ.get('PINTEREST_TOKEN')
+    url = "https://api.pinterest.com/v1/me/boards/"
+    headers = {"Authorization": f"Bearer {token}"}
+    
     response = requests.get(url, headers=headers)
     
+    # سنطبع حالة الرد دائماً لنرى ماذا يقول Pinterest
+    print(f"Status Code: {response.status_code}")
+    
     if response.status_code == 200:
-        data = response.json()
-        
-        # حفظ البيانات في ملف my_data.json
         with open('my_data.json', 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4)
-        print("تم سحب البيانات بنجاح.")
+            json.dump(response.json(), f, ensure_ascii=False, indent=4)
+        print("Success: Data saved")
     else:
-        print(f"فشل الاتصال، كود الخطأ: {response.status_code}")
-        print(response.text)
+        # هنا سنعرف المشكلة الحقيقية
+        print("Failed to fetch data")
+        print("Response Text:", response.text)
 
-except Exception as e:
-    print(f"حدث خطأ: {e}")
-  print(f"Data retrieved: {data}")
-                                         
+if __name__ == "__main__":
+    fetch_data()
+    
